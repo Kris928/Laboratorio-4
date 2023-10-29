@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Definición de la estructura del nodo
 struct Node {
     int data;
     struct Node* next;
 };
 
-// Función para agregar un nodo al final de la lista
 void appendNode(struct Node** head, int value) {
     struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
     new_node->data = value;
@@ -24,7 +22,6 @@ void appendNode(struct Node** head, int value) {
     }
 }
 
-// Función para eliminar un nodo por valor
 void deleteNode(struct Node** head, int value) {
     struct Node* current = *head;
     struct Node* prev = NULL;
@@ -47,7 +44,6 @@ void deleteNode(struct Node** head, int value) {
     }
 }
 
-// Función para agregar un nodo al inicio
 void prependNode(struct Node** head, int value) {
     struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
     new_node->data = value;
@@ -55,7 +51,6 @@ void prependNode(struct Node** head, int value) {
     *head = new_node;
 }
 
-// Función para buscar un nodo por valor
 void searchNode(struct Node* head, int value) {
     struct Node* current = head;
     while (current != NULL) {
@@ -68,7 +63,6 @@ void searchNode(struct Node* head, int value) {
     printf("El valor %d no se encuentra en la lista.\n", value);
 }
 
-// Función para imprimir la lista
 void printList(struct Node* head) {
     struct Node* current = head;
     printf("Lista: ");
@@ -79,7 +73,6 @@ void printList(struct Node* head) {
     printf("NULL\n");
 }
 
-// Función para obtener el elemento enésimo
 void getNodeAtIndex(struct Node* head, int index) {
     struct Node* current = head;
     int i = 0;
@@ -94,3 +87,33 @@ void getNodeAtIndex(struct Node* head, int index) {
     }
 }
 
+int main() {
+    struct Node* head = NULL;
+
+    appendNode(&head, 1);
+    appendNode(&head, 2);
+    appendNode(&head, 3);
+
+    printList(head);
+
+    // Agregar nodo al inicio
+    prependNode(&head, 0);
+    printList(head);
+
+    searchNode(head, 3);
+    searchNode(head, 4);
+
+    deleteNode(&head, 2);
+    printList(head);
+
+    getNodeAtIndex(head, 2);
+    getNodeAtIndex(head, 5);
+
+    while (head != NULL) {
+        struct Node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+
+    return 0;
+}
