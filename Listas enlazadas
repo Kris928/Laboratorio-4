@@ -46,3 +46,51 @@ void deleteNode(struct Node** head, int value) {
         printf("Nodo con valor %d eliminado.\n", value);
     }
 }
+
+// Función para agregar un nodo al inicio
+void prependNode(struct Node** head, int value) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = value;
+    new_node->next = *head;
+    *head = new_node;
+}
+
+// Función para buscar un nodo por valor
+void searchNode(struct Node* head, int value) {
+    struct Node* current = head;
+    while (current != NULL) {
+        if (current->data == value) {
+            printf("El valor %d existe en la lista.\n", value);
+            return;
+        }
+        current = current->next;
+    }
+    printf("El valor %d no se encuentra en la lista.\n", value);
+}
+
+// Función para imprimir la lista
+void printList(struct Node* head) {
+    struct Node* current = head;
+    printf("Lista: ");
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+// Función para obtener el elemento enésimo
+void getNodeAtIndex(struct Node* head, int index) {
+    struct Node* current = head;
+    int i = 0;
+    while (current != NULL && i < index) {
+        current = current->next;
+        i++;
+    }
+    if (current != NULL) {
+        printf("Elemento en el índice %d: %d\n", index, current->data);
+    } else {
+        printf("No existe un elemento en el índice %d.\n", index);
+    }
+}
+
