@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void appendNode(struct Node** head, int value) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = value;
+    new_node->next = NULL;
+
+    if (*head == NULL) {
+        *head = new_node;
+    } else {
+        struct Node* current = *head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = new_node;
+    }
+}
+
+void deleteNode(struct Node** head, int value) {
+    struct Node* current = *head;
+    struct Node* prev = NULL;
+
+    while (current != NULL && current->data != value) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("El valor %d no se encuentra en la lista.\n", value);
+    } else {
+        if (prev == NULL) {
+            *head = current->next;
+        } else {
+            prev->next = current->next;
+        }
+        free(current);
+        printf("Nodo con valor %d eliminado.\n", value);
+    }
+}
+
+void prependNode(struct Node** head, int value) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = value;
+    new_node->next = *head;
+    *head = new_node;
+}
+
+void searchNode(struct Node* head, int value) {
+    struct Node* current = head;
+    while (current != NULL) {
+        if (current->data == value) {
+            printf("El valor %d existe en la lista.\n", value);
+            return;
+        }
+        current = current->next;
+    }
+    printf("El valor %d no se encuentra en la lista.\n", value);
+}
+
+void printList(struct Node* head) {
+    struct Node* current = head;
+    printf("Lista: ");
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+void getNodeAtIndex(struct Node* head, int index) {
+    struct Node* current = head;
+    int i = 0;
+    while (current != NULL && i < index) {
+        current = current->next;
+        i++;
+    }
+    if (current != NULL) {
+        printf("Elemento en el índice %d: %d\n", index, current->data);
+    } else {
+        printf("No existe un elemento en el índice %d.\n", index);
+    }
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    appendNode(&head, 1);
+    appendNode(&head, 2);
+    appendNode(&head, 3);
+
+    printList(head);
+
+    // Agregar nodo al inicio
+    prependNode(&head, 0);
+    printList(head);
+
+    searchNode(head, 3);
+    searchNode(head, 4);
+
+    deleteNode(&head, 2);
+    printList(head);
+
+    getNodeAtIndex(head, 2);
+    getNodeAtIndex(head, 5);
+
+    while (head != NULL) {
+        struct Node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+
+    return 0;
+}
