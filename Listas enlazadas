@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definición de la estructura del nodo
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Función para agregar un nodo al final de la lista
+void appendNode(struct Node** head, int value) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = value;
+    new_node->next = NULL;
+
+    if (*head == NULL) {
+        *head = new_node;
+    } else {
+        struct Node* current = *head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = new_node;
+    }
+}
+
+// Función para eliminar un nodo por valor
+void deleteNode(struct Node** head, int value) {
+    struct Node* current = *head;
+    struct Node* prev = NULL;
+
+    while (current != NULL && current->data != value) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("El valor %d no se encuentra en la lista.\n", value);
+    } else {
+        if (prev == NULL) {
+            *head = current->next;
+        } else {
+            prev->next = current->next;
+        }
+        free(current);
+        printf("Nodo con valor %d eliminado.\n", value);
+    }
+}
